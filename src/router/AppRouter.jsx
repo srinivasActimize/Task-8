@@ -1,0 +1,32 @@
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AdminDashboard from '../pages/AdminDashboard/AdminDashboard';
+import ProductDetails from '../pages/ProductDetails/ProductDetails';
+import AdminProducts from '../pages/AdminProducts/AdminProducts';
+import ProductEdit from '../pages/ProductEdit/ProductEdit';
+import ProductForm from '../pages/ProductForm/ProductForm';
+// import Typography from '@mui/material';
+import { colors, Typography } from '@mui/material';
+export const AppRouter = () => {
+  return (
+    <div>
+        <Typography  variant='h3' sx={{
+            // color:'red',
+             bgcolor: 'lightblue',
+             m:0,
+             p:0
+        }}> Admin Panel</Typography>
+        
+       
+        <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<AdminDashboard/>}/>
+        3   <Route path='/products' element={<AdminProducts/>}/>
+            <Route path='/AddProducts' element={<ProductForm/>}/>
+            <Route path='/admin/details/:id' element={<ProductDetails/>}/>
+            <Route path='/admin/edit/:id' element={<ProductEdit/>}/>
+        </Routes>
+        </BrowserRouter>
+    </div>
+  )
+}
