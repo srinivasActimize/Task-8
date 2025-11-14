@@ -15,9 +15,12 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { useState } from 'react';
-import { TextField } from '@mui/material';
+import { Button, Stack, TableHead, TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -46,6 +49,7 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="first page"
       >
+        
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
@@ -110,7 +114,6 @@ export default function AdminProducts() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -125,12 +128,16 @@ export default function AdminProducts() {
 
   return (
     <div>
-      
-    <TextField
+      <Stack direction='row' sx={{mt:5, height: 'auto',
+                          width: 'auto',
+                          display: 'flex',
+                          justifyContent:'center'}}>
+        <Link to='/' > <Button variant='outlined' sx={{height:55}}>Go back</Button></Link>
+       <TextField
       sx={{
-        // padding:2,
-        width:'30%',
-        m:5
+        width:'auto',
+        ml:10,
+        mb:2
       }}
       label="Search"
       variant="outlined"
@@ -138,22 +145,67 @@ export default function AdminProducts() {
       onChange={handleSearchChange}
       // fullWidth
     />
+      </Stack>
+    
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+      <Table sx={{ width: 'auto', border:'2px solid grey',mb:2 }} aria-label="custom pagination table" align="center">
+        <TableHead sx={{
+          bgcolor:'lightgray'
+        }}>
+          <TableRow>
+            <TableCell align="center">
+             <h3>Product Title</h3> 
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <h3>Price</h3>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <h3>Description</h3>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <h3>Category</h3>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <h3>Image</h3>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="center">
+              <h3>Actions </h3>
+            </TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="center">
                 {row.name} 
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 {row.calories}
               </TableCell>
+               <TableCell style={{ width: 160 }} align="right">
+                {row.calories}
+              </TableCell>
+               <TableCell style={{ width: 160 }} align="right">
+                category
+              </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.fat}
+                img
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
+                <Box 
+                sx={{
+                  ml:5,
+                  gap:1,
+                  display:'flex'
+                }}>
+                <Link to='/details'><Button><VisibilityOutlinedIcon/></Button></Link>
+                <Button><DeleteOutlineOutlinedIcon/></Button>
+                <Link to='/edit'><Button><ModeEditOutlineOutlinedIcon/></Button></Link>
+                
+                </Box>
               </TableCell>
             </TableRow>
           ))}
@@ -163,7 +215,7 @@ export default function AdminProducts() {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
+        <TableFooter >
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
@@ -178,6 +230,7 @@ export default function AdminProducts() {
                   },
                   native: true,
                 },
+                
               }}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}

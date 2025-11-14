@@ -21,10 +21,10 @@ export const AppRouter = () => {
         <BrowserRouter>
         <Routes>
             <Route path='/' element={<AdminDashboard/>}/>
-        3   <Route path='/products' element={<AdminProducts/>}/>
+             <Route path='/products' element={<AdminProducts/>}/>
             <Route path='/AddProducts' element={<ProductForm/>}/>
-            <Route path='/admin/details/:id' element={<ProductDetails/>}/>
-            <Route path='/admin/edit/:id' element={<ProductEdit/>}/>
+            <Route path='/details/' element={<ProductDetails/>}/>
+            <Route path='/edit/' element={<ProductEdit/>}/>
         </Routes>
         </BrowserRouter>
     </div>

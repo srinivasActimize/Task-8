@@ -19,7 +19,6 @@ const linkStyle = {
     textDecoration: "none",
     display:'flex',
     fontSize: "12px",
-    padding: "10px",
 }
 function AdminDashboard() {
     return (
@@ -56,7 +55,7 @@ function AdminDashboard() {
                     border: '2px solid grey',
                 }}
             > 
-                <Typography variant='h5' >  Total Products :</Typography>
+                <Typography variant='h5' >  Total Products : 100</Typography>
             </Box>
             <Box
             sx={{
@@ -64,12 +63,12 @@ function AdminDashboard() {
                     width: 200,
                     ml: '42%',
                     display: 'flex',
-                    alignItems: 'center',
+                    justifyContent:'center'
                 }}>
 
             <Stack direction='column' gap={1}>
-                <Button variant="contained"><Link to="/products" style={linkStyle}>manage products</Link></Button>
-                <Button variant="contained"><Link to='/AddProducts' style={linkStyle}>Add Product</Link></Button>
+                <Link to="/products" style={linkStyle}><Button variant="contained">manage products</Button></Link>
+                <Link to='/AddProducts' style={linkStyle}><Button variant="contained">Add Product</Button></Link>
             </Stack>
             </Box>
 
