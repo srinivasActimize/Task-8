@@ -1,245 +1,94 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
+import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
+import { getProductsDataActionInitiate } from '../../Redux/Action/getProductsAction';
+import { useDispatch,useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import { useState } from 'react';
-import { Button, Stack, TableHead, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
 
-function TablePaginationActions(props) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
 
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
-  };
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
-  };
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
-  const handleNextButtonClick = (event) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </Box>
-  );
+export default function CustomizedTables() {
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+    const getproductdata = useSelector((state) => state.getproductsdata);
+  console.log('tableeeeeeee',getproductdata);
+  
+const handleDelete=(id)=>{
+  alert('hi');
+}
+const handleView=(id)=>{
+  navigate(`/products/${id}`);
 }
 
-TablePaginationActions.propTypes = {
-  count: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-};
+  useEffect(() => {
+    dispatch(getProductsDataActionInitiate());
+  }, [dispatch]);
+ 
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7),
-  createData('Donut', 452, 25.0),
-  createData('Eclair', 262, 16.0),
-  createData('Frozen yoghurt', 159, 6.0),
-  createData('Gingerbread', 356, 16.0),
-  createData('Honeycomb', 408, 3.2),
-  createData('Ice cream sandwich', 237, 9.0),
-  createData('Jelly Bean', 375, 0.0),
-  createData('KitKat', 518, 26.0),
-  createData('Lollipop', 392, 0.2),
-  createData('Marshmallow', 318, 0),
-  createData('Nougat', 360, 19.0),
-  createData('Oreo', 437, 18.0),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
-export default function AdminProducts() {
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   return (
-    <div>
-      <Stack direction='row' sx={{mt:5, height: 'auto',
-                          width: 'auto',
-                          display: 'flex',
-                          justifyContent:'center'}}>
-        <Link to='/' > <Button variant='outlined' sx={{height:55}}>Go back</Button></Link>
-       <TextField
-      sx={{
-        width:'auto',
-        ml:10,
-        mb:2
-      }}
-      label="Search"
-      variant="outlined"
-      value={searchTerm}
-      onChange={handleSearchChange}
-      // fullWidth
-    />
-      </Stack>
-    
     <TableContainer component={Paper}>
-      <Table sx={{ width: 'auto', border:'2px solid grey',mb:2 }} aria-label="custom pagination table" align="center">
-        <TableHead sx={{
-          bgcolor:'lightgray'
-        }}>
+      <Table sx={{ width: 'auto', border:'2px solid grey',mb:2,mt:2 }} aria-label="customized table" align='center'>
+        <TableHead >
           <TableRow>
-            <TableCell align="center">
-             <h3>Product Title</h3> 
-            </TableCell>
-            <TableCell style={{ width: 160 }} align="right">
-              <h3>Price</h3>
-            </TableCell>
-            <TableCell style={{ width: 160 }} align="right">
-              <h3>Description</h3>
-            </TableCell>
-            <TableCell style={{ width: 160 }} align="right">
-              <h3>Category</h3>
-            </TableCell>
-            <TableCell style={{ width: 160 }} align="right">
-              <h3>Image</h3>
-            </TableCell>
-            <TableCell style={{ width: 160 }} align="center">
-              <h3>Actions </h3>
-            </TableCell>
+            <StyledTableCell align='center'style={{ width: 160 }}>Title</StyledTableCell>
+            <StyledTableCell align='center' style={{ width: 160 }}>Price</StyledTableCell>
+            <StyledTableCell align='center' style={{ width: 160 }}>Category</StyledTableCell>
+            <StyledTableCell align="center" style={{ width: 160 }}>Image</StyledTableCell>
+            <StyledTableCell align='center' >Action</StyledTableCell>
+            
           </TableRow>
         </TableHead>
         <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row" align="center">
-                {row.name} 
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.calories}
-              </TableCell>
-               <TableCell style={{ width: 160 }} align="right">
-                {row.calories}
-              </TableCell>
-               <TableCell style={{ width: 160 }} align="right">
-                category
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                img
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                <Box 
-                sx={{
-                  ml:5,
-                  gap:1,
-                  display:'flex'
-                }}>
-                <Link to='/details'><Button><VisibilityOutlinedIcon/></Button></Link>
-                <Button><DeleteOutlineOutlinedIcon/></Button>
-                <Link to='/edit'><Button><ModeEditOutlineOutlinedIcon/></Button></Link>
-                
-                </Box>
-              </TableCell>
-            </TableRow>
+          {getproductdata.data.map((row) => (
+            <StyledTableRow key={row.name}>
+              <StyledTableCell component="th" scope="row">
+                {row.title}
+              </StyledTableCell>
+              <StyledTableCell align='center'>{row.price}</StyledTableCell>
+              <StyledTableCell align='center'>{row.category}</StyledTableCell>
+              <StyledTableCell align='center'> <img src={row.image} alt={row.id} width='50' height='50'/> </StyledTableCell>
+              <StyledTableCell align='right'>
+                 {/* <Link to='/details'> */}
+                 <Button onClick={()=>handleView(row.id)}><VisibilityOutlinedIcon  /></Button>
+                 {/* </Link> */}
+                <Button onClick={() => handleDelete(row.id)}><DeleteOutlineOutlinedIcon/></Button>
+                <Link to='/edit'><Button><ModeEditOutlineOutlinedIcon/></Button></Link> 
+              </StyledTableCell>
+            </StyledTableRow>
           ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
         </TableBody>
-        <TableFooter >
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                },
-                
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
     </TableContainer>
-    </div>
   );
 }

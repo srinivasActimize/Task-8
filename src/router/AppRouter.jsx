@@ -23,7 +23,7 @@ export const AppRouter = () => {
             <Route path='/' element={<AdminDashboard/>}/>
              <Route path='/products' element={<AdminProducts/>}/>
             <Route path='/AddProducts' element={<ProductForm/>}/>
-            <Route path='/details/' element={<ProductDetails/>}/>
+            <Route path='/products/:id' element={<ProductDetails/>}/>
             <Route path='/edit/' element={<ProductEdit/>}/>
         </Routes>
         </BrowserRouter>

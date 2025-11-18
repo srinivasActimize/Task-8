@@ -3,9 +3,13 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button';
 import { styled, Typography } from '@mui/material'
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Stack from '@mui/system/Stack';
 import { Link } from 'react-router-dom';
 import { border, display } from '@mui/system';
+import { getProductsDataActionInitiate } from '../../Redux/Action/getProductsAction';
 const DemoPaper = styled(Paper)(({ theme }) => ({
     width: 200,
     height: 200,
@@ -21,26 +25,19 @@ const linkStyle = {
     fontSize: "12px",
 }
 function AdminDashboard() {
+//       const dispatch=useDispatch();
+
+//   useEffect(() => {
+//     dispatch(getProductsDataActionInitiate());
+//   }, [dispatch]);
+ 
+//   const getproductdata = useSelector((state) => state.getproductsdata);
+ 
+//   const count=getproductdata.data.length;
+//   console.log("array of data",getproductdata);
+ 
     return (
         <>
-            {/* <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                        ml: 25,
-                        mt: 8,
-                        width: 300,
-                        height: 300,
-                    },
-                }}
-            >
-                <DemoPaper elevation={6}> Total products:{ }
-
-                </DemoPaper>
-                <Stack>
-    </Stack> 
-            </Box> */}
             <Box
                 direction='column'
 
@@ -67,6 +64,7 @@ function AdminDashboard() {
                 }}>
 
             <Stack direction='column' gap={1}>
+                
                 <Link to="/products" style={linkStyle}><Button variant="contained">manage products</Button></Link>
                 <Link to='/AddProducts' style={linkStyle}><Button variant="contained">Add Product</Button></Link>
             </Stack>

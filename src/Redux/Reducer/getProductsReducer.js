@@ -1,27 +1,27 @@
 
-import * as types from "../../Actions/actionTypes";
- 
+ import * as types from "../Action/actionTypes";
 const initialState = {
     data: [],
     loading: false,
     error: null,
 };
  
-const getHomeScreenDataReducer = (state = initialState, action) => {
+const getProductsDataReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_HOME_SCREEN_DATA_START:
+    case types.GET_PRODUCTS_DATA_START:
       return {
         ...state,
         loading: true,
-       
+       error:null,
       };
-    case types.GET_HOME_SCREEN_DATA_SUCCESS:
+    case types.GET_PRODUCTS_DATA_SUCCESS:
       return {
         ...state,
-        loading: false,
         data: action.payload,
+        loading: false,
+        error:null,
       };
-    case types.GET_HOME_SCREEN_DATA_ERROR:
+    case types.GET_PRODUCTS_DATA_ERROR:
       return {
         ...state,
         loading: false,
@@ -32,6 +32,6 @@ const getHomeScreenDataReducer = (state = initialState, action) => {
   }
 };
  
-export default getHomeScreenDataReducer;
+export default getProductsDataReducer;
  
  
