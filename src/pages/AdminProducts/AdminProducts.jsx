@@ -40,21 +40,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables() {
   const dispatch=useDispatch();
   const navigate=useNavigate();
-    const getproductdata = useSelector((state) => state.getproductsdata);
-  console.log('tableeeeeeee',getproductdata);
-  
+  const getproductdata = useSelector((state) => state.getproductsdata);
+const fetchedData = Object.keys(getproductdata.data).map(key => ({
+          id: key,
+          ...getproductdata.data[key]
+        }));
+        // console.log(fetchedData);
 const handleDelete=(id)=>{
   alert('hi');
 }
 const handleView=(id)=>{
   navigate(`/products/${id}`);
 }
+const handleEdit=(id)=>{
+  navigate(`/edit/${id}`)
+}
 
   useEffect(() => {
     dispatch(getProductsDataActionInitiate());
   }, [dispatch]);
- 
-
 
   return (
     <TableContainer component={Paper}>
@@ -66,11 +70,10 @@ const handleView=(id)=>{
             <StyledTableCell align='center' style={{ width: 160 }}>Category</StyledTableCell>
             <StyledTableCell align="center" style={{ width: 160 }}>Image</StyledTableCell>
             <StyledTableCell align='center' >Action</StyledTableCell>
-            
           </TableRow>
         </TableHead>
         <TableBody>
-          {getproductdata.data.map((row) => (
+          {fetchedData.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
                 {row.title}
@@ -83,7 +86,7 @@ const handleView=(id)=>{
                  <Button onClick={()=>handleView(row.id)}><VisibilityOutlinedIcon  /></Button>
                  {/* </Link> */}
                 <Button onClick={() => handleDelete(row.id)}><DeleteOutlineOutlinedIcon/></Button>
-                <Link to='/edit'><Button><ModeEditOutlineOutlinedIcon/></Button></Link> 
+                <Button onClick={()=>handleEdit(row.id)}><ModeEditOutlineOutlinedIcon/></Button> 
               </StyledTableCell>
             </StyledTableRow>
           ))}

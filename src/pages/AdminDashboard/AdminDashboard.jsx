@@ -25,15 +25,15 @@ const linkStyle = {
     fontSize: "12px",
 }
 function AdminDashboard() {
-//       const dispatch=useDispatch();
+      const dispatch=useDispatch();
 
-//   useEffect(() => {
-//     dispatch(getProductsDataActionInitiate());
-//   }, [dispatch]);
+  useEffect(() => {
+    dispatch(getProductsDataActionInitiate());
+  }, [dispatch]);
  
-//   const getproductdata = useSelector((state) => state.getproductsdata);
+  const getproductdata = useSelector((state) => state.getproductsdata);
  
-//   const count=getproductdata.data.length;
+  const count=getproductdata.data.length;
 //   console.log("array of data",getproductdata);
  
     return (
@@ -45,14 +45,17 @@ function AdminDashboard() {
                     height: 200,
                     width: 200,
                     my: 4,
-                    ml: '40%',
                     display: 'flex',
+                    justifyContent:'center',
                     alignItems: 'center',
                     p: 2,
-                    border: '2px solid grey',
+                    color:'#452829',
+                    bgcolor:'#F3E8DF',
+                    borderRadius:8,
+                    boxShadow: '0px 2px 10px 10px rgba(0, 0, 0, 0.2)'
                 }}
             > 
-                <Typography variant='h5' >  Total Products : 100</Typography>
+                <Typography variant='h5'  >  Total Products : {count}</Typography>
             </Box>
             <Box
             sx={{

@@ -6,7 +6,7 @@ const endPoints = "/products";
 export const getProductDataApi = async (id) => {
   return new Promise(async (resolve, reject) =>{
     try {
-      const result = await api.get(`${endPoints}/${id}`);
+      const result = await api.get(`${endPoints}/${id}.json`);
     //   console.log('sgsgs',result.data)
     if(result&&result.data){
           resolve(result);

@@ -1,65 +1,108 @@
 import { Box, Button, Stack, TextField } from '@mui/material'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { getProductDataActionInitiate } from '../../Redux/Action/getProductAction'
 const linkStyle = {
-    color: "white",
-    textDecoration: "none",
-    display:'flex',
-    fontSize: "12px",
+  color: "white",
+  textDecoration: "none",
+  display: 'flex',
+  fontSize: "12px",
 }
 const ProductEdit = () => {
-  const [name,useName]=useState('');
+  const [product, setProduct] = useState({
+    title: '',
+    price: '',
+    description: '',
+    category: ''
+  });
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const getproductdata = useSelector((state) => state.getproductdata.data);
+  const dispatch = useDispatch();
+
+
   
-  const navigate=useNavigate();
+  const handleBack = () => {
+    navigate(-1);
+  }
+  const handleChange=e=>{
+    setProduct({...product,[e.target.name]:e.target.value})
+  }
+
+  const handleUpdate = () => {
+    navigate('/products')
+  }
+  useEffect(() => {
+    dispatch(getProductDataActionInitiate(id));
+  }, [id]);
+
+  useEffect(() => {
+    if (getproductdata) {
+      setProduct(getproductdata)
+    }
+  }, [getproductdata])
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Box component="form" sx={{
         mt: 5,
-        ml: 45,
-        py: 2,
-        gap: 2,
-        display: 'grid',
+        p: 2,
         border: '2px solid grey',
-        width: '500px',
-        height: '300px',
-        justifyContent: 'center',
+        width: 'auto',
+        maxWidth: 600,
+        height: 'auto',
       }}>
         <h3>Enter Details</h3>
+        <img src={product.image} width='100' height='100' />
         <div sx={{
-          display: 'grid',
-          gap: 1,
+          display: 'flex',
           m: 2,
+          p: 2
         }}>
+          {/* <label for='outlined-required'>Name</label> */}
           <TextField
             required
             id="outlined-required"
-            label="enter product name"
+            name='title'
+            value={product.title}
+            onChange={handleChange}
+            label="Title"
           />
+
           <TextField
             required
             id="outlined-required"
-            label="Enter cost"
+            label='price'
+            name='price'
+            onChange={handleChange}
+            value={product.price}
           />
         </div>
         <div sx={{
           display: 'flex',
-          spacing: 2
+          m: 5
         }}>
           <TextField
             required
             id="outlined-required"
-            label="calories"
+            name='category'
+            value={product.category}
+            onChange={handleChange}
+            label='category'
           />
           <TextField
             required
             id="outlined-required"
-            label="Required"
+            name='description'
+            value={product.description}
+            onChange={handleChange}
+            label='Description'
           />
         </div>
-        <Stack direction='row' spacing={3} sx={{justifyContent:'center'}}>        
-          <Link to='/products/' style={linkStyle} ><Button variant='contained'>Goo Back</Button></Link>
-          <Button variant='contained' >Update</Button>
+        <Stack direction='row' spacing={3} sx={{ justifyContent: 'center' }}>
+          <Button variant='contained' onClick={handleBack}>Goo Back</Button>
+          <Button variant='contained' onClick={handleUpdate} >Update</Button>
         </Stack>
       </Box>
     </div>

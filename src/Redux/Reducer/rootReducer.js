@@ -6,9 +6,11 @@
  import { combineReducers } from "@reduxjs/toolkit"
 import getProductsDataReducer from "./getProductsReducer";
 import getProductDataReducer from "./getProductReducer";
+import addProductDataReducer from "./addProductReducer";
 export const rootReducer=combineReducers({
    getproductsdata:getProductsDataReducer,
    getproductdata:getProductDataReducer,
+   addroductdata:addProductDataReducer
 //    postemployeedata:postReducer,
 //    deleteemployeedata:deleteReducer,
 //    updateemployeedata:putReducer

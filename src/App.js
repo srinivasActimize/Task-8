@@ -5,11 +5,13 @@ import store from './Redux/store';
 
 function App() {
   return (
-    <div className="App">
+    <>
+    <div className='App'>
       <Provider store={store}>
       <AppRouter/>
       </Provider>
-    </div>
+      </div>
+    </>
   );
 }
 

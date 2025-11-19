@@ -13,8 +13,6 @@ export const AppRouter = () => {
         <Typography  variant='h3' sx={{
             // color:'red',
              bgcolor: 'lightblue',
-             m:0,
-             p:0
         }}> Admin Panel</Typography>
         
        
@@ -24,7 +22,7 @@ export const AppRouter = () => {
              <Route path='/products' element={<AdminProducts/>}/>
             <Route path='/AddProducts' element={<ProductForm/>}/>
             <Route path='/products/:id' element={<ProductDetails/>}/>
-            <Route path='/edit/' element={<ProductEdit/>}/>
+            <Route path='/edit/:id' element={<ProductEdit/>}/>
         </Routes>
         </BrowserRouter>
     </div>
