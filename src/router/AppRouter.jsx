@@ -12,7 +12,7 @@ export const AppRouter = () => {
     <div>
         <Typography  variant='h3' sx={{
             // color:'red',
-             bgcolor: 'lightblue',
+             bgcolor: '#D9CFC7',
         }}> Admin Panel</Typography>
         
        

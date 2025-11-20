@@ -32,8 +32,13 @@ function AdminDashboard() {
   }, [dispatch]);
  
   const getproductdata = useSelector((state) => state.getproductsdata);
- 
-  const count=getproductdata.data.length;
+  const fetchedData = Object.keys(getproductdata.data).map(key => ({
+      id: key,
+      ...getproductdata.data[key]
+    }));
+
+    const count=fetchedData.length;
+  console.log('counnnnnt',count)
 //   console.log("array of data",getproductdata);
  
     return (
@@ -45,6 +50,7 @@ function AdminDashboard() {
                     height: 200,
                     width: 200,
                     my: 4,
+                    ml:'40%',
                     display: 'flex',
                     justifyContent:'center',
                     alignItems: 'center',
@@ -52,10 +58,13 @@ function AdminDashboard() {
                     color:'#452829',
                     bgcolor:'#F3E8DF',
                     borderRadius:8,
-                    boxShadow: '0px 2px 10px 10px rgba(0, 0, 0, 0.2)'
+                    boxShadow: '0px 0px 0px 2px rgba(0, 0, 0, 0.2)'
                 }}
             > 
-                <Typography variant='h5'  >  Total Products : {count}</Typography>
+                <Box >
+                <Typography  variant='h6'  >  Total Products :</Typography>
+                <Typography sx={{my:3}} variant='h1'>{count}</Typography>
+                </Box>
             </Box>
             <Box
             sx={{
@@ -65,11 +74,11 @@ function AdminDashboard() {
                     display: 'flex',
                     justifyContent:'center'
                 }}>
-
+                        
             <Stack direction='column' gap={1}>
                 
-                <Link to="/products" style={linkStyle}><Button variant="contained">manage products</Button></Link>
-                <Link to='/AddProducts' style={linkStyle}><Button variant="contained">Add Product</Button></Link>
+                <Link to="/products" style={linkStyle}><Button sx={{bgcolor:'#C9B59C'}}variant="contained">manage products</Button></Link>
+                <Link to='/AddProducts' style={linkStyle}><Button sx={{bgcolor:'#C9B59C'}} variant="contained">Add Product</Button></Link>
             </Stack>
             </Box>
 

@@ -17,11 +17,9 @@ class API {
  
   async get(url, data) {
     return new Promise((resolve, reject) => {
-      console.log('this is getAPI');
       this.api(METHOD.GET, url, data)    
         .then((response) => {
           resolve(response);
-          console.log("this is response2",response)
         })
         .catch((error) => {
           toast.error("Something went wrong");
@@ -52,7 +50,6 @@ class API {
   }
   put(url, data) {
     return new Promise((resolve, reject) => {
-      console.log('this is putAPI');
       this.api(METHOD.PUT, url, data)
         .then((response) => {
           toast.success(" update request successfully");
@@ -66,7 +63,6 @@ class API {
   }
   delete(url, data) {
     return new Promise((resolve, reject) => {
-      console.log('this is deleteAPI');
       this.api(METHOD.DELETE, url, data)
         .then((response) => {
           toast.success(" delete request successfully");
@@ -81,7 +77,6 @@ class API {
   // Main function with hold the axios request param
   api(method, url, data) {
     return new Promise(( resolve,reject) => {
-      console.log('this is mainAPI function');
       let axiosConfig = {};
       axiosConfig.method = method;
       axiosConfig.url = this.baseURL + url;
@@ -101,12 +96,11 @@ class API {
             toast.error("Something went wrong!!");
           } else {  
             resolve(response);
-            console.log("this is response1")
             if (response) {
               // toast.success("success response");
             }
             else if (response.status === 200) {
-              toast.success(' response success')
+              toast.success('response success')
                
             }
             else {
@@ -123,7 +117,6 @@ class API {
   // Set the header for request
   setHeaders(data) {
     let headers = {};
-    console.log('this is headers');
     headers["accept-language"] = "en";
     headers["Content-Type"] = "application/json";
     headers["Accept"] = "application/json";
