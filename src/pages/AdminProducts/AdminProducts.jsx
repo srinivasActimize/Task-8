@@ -50,6 +50,7 @@ export default function CustomizedTables() {
     id: key,
     ...getproductdata.data[key]
   }));
+  
   // console.log(fetchedData);
   console.log(fetchedData)
 const [product,setProduct]=useState(fetchedData);

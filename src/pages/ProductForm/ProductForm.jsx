@@ -47,6 +47,7 @@ const ProductForm = () => {
       }
     }
     setOpen(true)
+    navigate(-1);
   }
   return (
     <div>
