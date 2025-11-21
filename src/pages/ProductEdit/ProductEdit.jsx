@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Stack, TextField } from '@mui/material'
+import { Box, Button, Stack, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {  useParams } from 'react-router-dom'
@@ -6,13 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { getProductDataActionInitiate } from '../../Redux/Action/getProductAction'
 import { updateProductDataActionInitiate } from '../../Redux/Action/updateProductAction'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import HomeIcon from '@mui/icons-material/HomeIcon';
-const linkStyle = {
-  color: "white",
-  textDecoration: "none",
-  display: 'flex',
-  fontSize: "12px",
-}
+
 const ProductEdit = () => {
   const [product, setProduct] = useState({
     title: '',
@@ -71,12 +65,7 @@ const ProductEdit = () => {
           <div>
             <img src={product.image} width='100' height='100' />
           </div>
-          <div sx={{
-            display: 'flex',
-            m: 2,
-            p: 2
-          }}>
-            {/* <label for='outlined-required'>Name</label> */}
+          <div sx={{display: 'flex', m: 2,p: 2}}>
             <TextField
               required
               sx={{ bgcolor: '#F4F4F4', m: 1 }}
@@ -138,7 +127,6 @@ const ProductEdit = () => {
             
             <Button startIcon={<ArrowBackIcon />} sx={{bgcolor:'#C9B59C'}} size="small" variant='contained' onClick={handleBack}>Back</Button>
             <Button sx={{bgcolor:'#C9B59C'}} size='small' variant='contained' onClick={handleUpdate} >Edit Details</Button>
-            {/* <Button sx={{bgcolor:'#C9B59C'}} variant='contained' onClick={handleDelete}>DELETE</Button> */}
           </Stack>
         </Box>
 

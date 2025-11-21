@@ -1,22 +1,14 @@
-import React from 'react'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button';
 import { styled, Typography } from '@mui/material'
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import Stack from '@mui/system/Stack';
 import { Link } from 'react-router-dom';
-import { border, display } from '@mui/system';
 import { getProductsDataActionInitiate } from '../../Redux/Action/getProductsAction';
-const DemoPaper = styled(Paper)(({ theme }) => ({
-    width: 200,
-    height: 200,
-    padding: theme.spacing(2),
-    ...theme.typography.body2,
-    textAlign: 'center',
-}));
+
 
 const linkStyle = {
     color: "white",
@@ -39,7 +31,6 @@ function AdminDashboard() {
 
     const count=fetchedData.length;
   console.log('counnnnnt',count)
-//   console.log("array of data",getproductdata);
  
     return (
         <>

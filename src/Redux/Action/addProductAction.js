@@ -1,5 +1,5 @@
 
-// import { getProductDataApi } from "../Api/getProductApi";
+
 import { addProductDataApi} from '../Api/addProductApi';
 import * as types from './actionTypes';
  

@@ -9,20 +9,17 @@ import Paper from '@mui/material/Paper';
 import { getProductsDataActionInitiate } from '../../Redux/Action/getProductsAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, IconButton, Stack, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Container, IconButton, Stack, TablePagination, TextField } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
-
-// import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-
+import { Loader } from '../../components/Loader/Loader';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { deleteProductDataActionInitiate } from '../../Redux/Action/deleteProductAction';
 
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#313647',
     color: '#EFECE3',
@@ -32,7 +29,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
   '&:nth-of-type(odd)': {
     backgroundColor: '#F9F8F6',
   },
@@ -45,7 +42,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-
+  const [loading,setLoading]=useState(true)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getproductdata = useSelector((state) => state.getproductsdata);
@@ -54,7 +51,8 @@ export default function CustomizedTables() {
     ...getproductdata.data[key]
   }));
   // console.log(fetchedData);
-
+  console.log(fetchedData)
+const [product,setProduct]=useState(fetchedData);
   useEffect(() => {
     dispatch(getProductsDataActionInitiate());
   }, [dispatch, open]);
@@ -88,15 +86,49 @@ export default function CustomizedTables() {
   }
   const handleChange=(e)=>{
     setSearch(e.target.value)
-    // console.log(search)
   }
-  const handleClick=()=>{
-    let filtered=fetchedData.filter(temp=>temp.category===search)
-    fetchedData=filtered;
-    console.log(filtered)
+
+  useEffect(()=>{
+    if(search.length<1){
+      setProduct(fetchedData)
+      return
+    }
+    if(search&&fetchedData){
+      let res=fetchedData
+      if(search) res=res.filter(p=>p.category.toLowerCase().includes(search.toLowerCase()))
+        setProduct(res);
+    }
+  },[search,getproductdata])
+
+    
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    });
+
+
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+
+  const handleChangePage = (newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
+
+  const empty = !product || product.length === 0
+  const visibleRows = empty ? [] : product.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+
+
+  if(loading){
+    return <Loader/>
   }
   return (
-    <>
+    <Container>
       <br></br>
       <Snackbar
         sx={{
@@ -107,24 +139,27 @@ export default function CustomizedTables() {
         onClose={handleClose}
         message="deleted successfully"
       />
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', gap: 2 }}>
         <TextField
           name='search'
           value={search}
           label='Search category'
           onChange={handleChange}
+          size='small'
         >
 
         </TextField>
-          <Button onClick={handleClick} sx={{ bgcolor: '#C9B59C' }} variant='contained'>Search</Button>
-        <Stack sx={{ display: 'flex', justifyContent: 'center', ml: '38%' }} direction='row' spacing={2}>
+      </Box>
+      <Box sx={{ display: 'flex', gap: 2}}>
+        <Stack sx={{ display: 'flex' }} direction='row' spacing={2}>
           <Button size='small' sx={{ bgcolor: '#C9B59C' }} variant='contained' onClick={handleBack}>Home</Button>
           <Button size='small' sx={{ m: 4, bgcolor: '#C9B59C' }} variant='contained' onClick={handleAdd}>Add product</Button>
         </Stack>
       </Box>
-
+      </Box>
       <TableContainer component={Paper}>
-        <Table sx={{ width: 'auto', mb: 2, mt: 2, color: '#452829', bgcolor: '#EFE9E3' }} aria-label="customized table" align='center'>
+        <Table sx={{ width: '100%', mb: 10, mt: 2, color: '#452829', bgcolor: '#EFE9E3' }} aria-label="customized table" align='center'>
           <TableHead >
             <TableRow>
               <StyledTableCell align='center' style={{ width: 160 }}>Title</StyledTableCell>
@@ -133,9 +168,9 @@ export default function CustomizedTables() {
               <StyledTableCell align="center" style={{ width: 160 }}>Image</StyledTableCell>
               <StyledTableCell align='center' >Action</StyledTableCell>
             </TableRow>
-          </TableHead>
+          </TableHead>  
           <TableBody>
-            {fetchedData.map((row) => (
+            {visibleRows?.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row" align='center'>
                   {row.title}
@@ -143,7 +178,7 @@ export default function CustomizedTables() {
                 <StyledTableCell align='center'>{row.price}</StyledTableCell>
                 <StyledTableCell align='center'>{row.category}</StyledTableCell>
                 <StyledTableCell align='center'> <img src={row.image} alt={row.id} width='50' height='50' /> </StyledTableCell>
-                <StyledTableCell align='right' gap="2">
+                <StyledTableCell align='center' gap="2">
                   {/* <Link to='/details'> */}
 
                   {/* </Link> */}
@@ -160,10 +195,17 @@ export default function CustomizedTables() {
             ))}
           </TableBody>
         </Table>
+       
       </TableContainer>
-
-    </>
-
+ <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={product.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Container>
   );
 }
-

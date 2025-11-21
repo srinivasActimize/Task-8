@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
-// import { getProductDataApi } from '../../Redux/Api/getProductApi';
 import { Box, Button, IconButton } from '@mui/material';
 import { getProductDataActionInitiate } from '../../Redux/Action/getProductAction';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-
 import { useNavigate } from 'react-router-dom';
 import { deleteProductDataActionInitiate } from '../../Redux/Action/deleteProductAction';
-
 import Snackbar from '@mui/material/Snackbar';
+
 const ProductDetails = () => {
   const [open, setOpen] = useState(false);
   const { id } = useParams();
@@ -38,10 +36,9 @@ const ProductDetails = () => {
   });
 
   const getproductdata = useSelector((state) => state.getproductdata.data);
-  //  console.log('hello',getproductdata)
   const dispatch = useDispatch();
 
-  const handleClose = (event, reason) => {
+  const handleClose = () => {
     setOpen(false)
     navigate(-1)
   }

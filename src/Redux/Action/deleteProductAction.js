@@ -27,7 +27,6 @@ export const deleteProductDataActionInitiate = (id) => {
    
     try {
       const res = await deleteProductDataApi(id);
-      // dispatch(deleteProductDataSuccess(res.data));
         dispatch(getProductsDataActionInitiate());
       console.log('rrr',res)
     } catch (error) {

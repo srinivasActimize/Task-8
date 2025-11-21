@@ -1,12 +1,10 @@
-import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminDashboard from '../pages/AdminDashboard/AdminDashboard';
 import ProductDetails from '../pages/ProductDetails/ProductDetails';
 import AdminProducts from '../pages/AdminProducts/AdminProducts';
 import ProductEdit from '../pages/ProductEdit/ProductEdit';
 import ProductForm from '../pages/ProductForm/ProductForm';
-// import Typography from '@mui/material';
-import { colors, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 export const AppRouter = () => {
   return (
     <div>

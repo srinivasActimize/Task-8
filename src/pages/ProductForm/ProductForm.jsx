@@ -1,20 +1,11 @@
-import { Box, Button, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Stack, TextField} from '@mui/material'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-// import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import { addProductDataActionInitiate, addProductDataError, addProductDataStart } from '../../Redux/Action/addProductAction'
-// import { addProductDataApi } from '../../Redux/Api/addProductApi'
+import { addProductDataActionInitiate, addProductDataError } from '../../Redux/Action/addProductAction'
 import Snackbar from '@mui/material/Snackbar';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-const linkStyle = {
-  color: "white",
-  textDecoration: "none",
-  display: 'flex',
-  fontSize: "12px",
-}
 
 const ProductForm = () => {
   const [product, setProduct] = useState({
@@ -24,11 +15,12 @@ const ProductForm = () => {
     category: '',
     image: ''
   })
+
   const [open, setOpen] = useState(false);
   const handleBack = () => {
     navigate(-1)
   }
-  const handleClose = (event, reason) => {
+  const handleClose = ( reason) => {
     setOpen(false)
     if (reason === 'clickaway') {
       return;
@@ -55,7 +47,6 @@ const ProductForm = () => {
       }
     }
     setOpen(true)
-    // navigate(-1);
   }
   return (
     <div>
